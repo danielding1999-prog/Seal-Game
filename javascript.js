@@ -4,6 +4,7 @@ const rec = container.getBoundingClientRect();
 const dot = document.querySelector(".dot");
 const dotDimension = dot.getBoundingClientRect();
 const enemy = document.querySelector(".enemy");
+const enemyHealthBar = document.querySelector(".enemyHealth");
 let mouseX =200;
 let mouseY = 200;
 let dotX = 200;
@@ -43,8 +44,17 @@ function CheckDotBorder(){
         dotY = rec["bottom"] - dotHeight/2;
     }
 }
+
+function SetEnemyHealth(){
+    let health = 100;
+    const p = document.createElement('p');
+    p.textContent = `${health}`;
+    enemyHealthBar.appendChild(p);
+}
+
+
 FollowCursor();
-console.log(dot.style.width);
+SetEnemyHealth();
 
 
 
