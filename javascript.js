@@ -5,6 +5,7 @@ const dot = document.querySelector(".dot");
 const dotDimension = dot.getBoundingClientRect();
 const enemy = document.querySelector(".enemy");
 const enemyHealthBar = document.querySelector(".enemyHealth");
+const enemyBoundary = enemy.getBoundingClientRect();
 let mouseX =200;
 let mouseY = 200;
 let dotX = 200;
@@ -12,6 +13,7 @@ let dotY = 200;
 let dotHeight = dotDimension["height"];
 let dotWidth = dotDimension["width"];
 let velocity = 0.08;
+let health = 100;
 
 // Add event listener to track mouse movement
 body.addEventListener("mousemove", (event) => {
@@ -26,6 +28,7 @@ function FollowCursor(){
     CheckDotBorder();
     dot.style.left = dotX + -dotWidth/2 + "px";
     dot.style.top = dotY + -dotHeight/2 + "px";
+    SetEnemyHealth();
     requestAnimationFrame(FollowCursor);
 }
 // Function to check if the dot is within the container boundaries
@@ -46,15 +49,33 @@ function CheckDotBorder(){
 }
 
 function SetEnemyHealth(){
-    let health = 100;
-    const p = document.createElement('p');
-    p.textContent = `${health}`;
-    enemyHealthBar.appendChild(p);
+    const currentdotDimension = dot.getBoundingClientRect();
+    let collision = currentdotDimension["right"] > enemyBoundary["left"] &&
+                    currentdotDimension["left"] < enemyBoundary["right"] &&
+                    currentdotDimension["top"] < enemyBoundary["bottom"] &&
+                    currentdotDimension["bottom"] > enemyBoundary["top"];
+    if (collision && health > 0) {
+        health -= 1;
+    }
+    if (health == 0) {
+        enemy.style.backgroundColor = "blue";
+    }    
+    // if (health < 0) {
+    //     health = 0;
+    // }
+    // if (health = 0){
+    //     enemyHealthBar.style.backgroundColor = "blue";
+    // }
+    console.log(health);
+
 }
+
+
 
 
 FollowCursor();
 SetEnemyHealth();
+
 
 
 
